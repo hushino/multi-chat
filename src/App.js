@@ -46,8 +46,9 @@ function App() {
     socket.on('connect', () => {
       console.log("alguien se a conectado")
     });
-    socket.on('messages', (data) => {
-      console.log(data)
+    socket.on('messages', (message) => {
+      setValues({ text: message.body })
+      //console.log(message)
     });
     socket.on('disconnect', () => { console.log("alguien se a disconnect") });
 
@@ -60,7 +61,7 @@ function App() {
     event.preventDefault();
     const body = event.target.value
     if (event.keyCode === 13 && body) {
-      setValues({ text: event.target.value })
+      //setValues({ text: event.target.value })
       socket.emit('new-message', event.target.value);
       event.target.value = ''
     }
