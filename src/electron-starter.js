@@ -41,14 +41,17 @@ function createWindow() {
     });
 
     io.on('connection', function (socket) {
-        //console.log('Alguien se ha conectado con Sockets');
-        socket.emit('messages', messages);
-
+        /* socket.emit('messages', messages);
         socket.on('new-message', function (data) {
             messages.push(data);
-
             io.sockets.emit('messages', messages);
-        });
+        }); */
+        socket.on('new-message', body => {
+            socket.broadcast.emit("messages", {
+                body,
+                from: socket.id.slice(8)
+            })
+        })
     });
 
     server.listen(8080, function () {

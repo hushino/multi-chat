@@ -43,9 +43,6 @@ function App() {
   const socket = io('http://localhost:8080', { forceNew: true });
 
   useEffect(() => {
-
-  }, []);
-  useEffectOnce(() => {
     socket.on('connect', () => {
       console.log("alguien se a conectado")
     });
@@ -53,6 +50,9 @@ function App() {
       console.log(data)
     });
     socket.on('disconnect', () => { console.log("alguien se a disconnect") });
+
+  }, []);
+  useEffectOnce(() => {
 
   });
 
@@ -62,6 +62,7 @@ function App() {
     if (event.keyCode === 13 && body) {
       setValues({ text: event.target.value })
       socket.emit('new-message', event.target.value);
+      event.target.value = ''
     }
   }
 
