@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Input from '@material-ui/core/Input';
-
+import { useEffectOnce } from 'react-use';
 import io from 'socket.io-client';
 
 const useStyles = makeStyles(theme => ({
@@ -41,7 +41,11 @@ function App() {
     text: ""
   });
   const socket = io('http://localhost:8080', { forceNew: true });
+
   useEffect(() => {
+
+  }, []);
+  useEffectOnce(() => {
     socket.on('connect', () => {
       console.log("alguien se a conectado")
     });
@@ -50,8 +54,7 @@ function App() {
     });
     socket.on('disconnect', () => { console.log("alguien se a disconnect") });
 
-  }, []);
-
+  });
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -61,7 +64,7 @@ function App() {
       socket.emit('new-message', event.target.value);
     }
   }
-  
+
   return (
     <div>
       {values.text}
